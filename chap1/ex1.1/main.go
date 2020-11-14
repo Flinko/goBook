@@ -26,7 +26,7 @@ func main() {
 
 func ex13(args []string) {
 	var s string
-	for idx, arg := range os.Args {
+	for idx, arg := range args {
 		s += strconv.Itoa(idx) + " " + arg + "\n"
 	}
 	fmt.Println(s)
@@ -35,7 +35,7 @@ func ex13(args []string) {
 //if we a lot of values strings.Join more efficient them +=
 func ex13Join(args []string) {
 	var s string
-	for idx, arg := range os.Args {
+	for idx, arg := range args {
 		s = strings.Join([]string{s, strconv.Itoa(idx), arg}, " ")
 	}
 	fmt.Println(s)
