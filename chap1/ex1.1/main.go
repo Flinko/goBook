@@ -32,7 +32,7 @@ func ex13(args []string) {
 	fmt.Println(s)
 }
 
-//if we a lot of values strings.Join more efficient them +=
+//if we a lot of values strings.Join more efficient then +=
 func ex13Join(args []string) {
 	var s string
 	for idx, arg := range args {
