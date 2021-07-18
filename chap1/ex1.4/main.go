@@ -7,38 +7,41 @@ import (
 )
 
 func main() {
-	result := make(map[string]string)
+	counts := make(map[string]map[string]int)
 	files := os.Args[1:]
 	if len(files) == 0 {
-		return
+		countLines(os.Stdin, "os.Stdin", counts)
 	} else {
 		for _, arg := range files {
-			counts := make(map[string]int)
 			f, err := os.Open(arg)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "dup2: %v\n", err)
 				continue
 			}
-			countLines(f, counts)
+			countLines(f, arg, counts)
 			err = f.Close()
 			if err != nil {
+				fmt.Printf("failed to close the file: %s, err: %s", arg, err.Error())
 				return
-			}
-			for line, count := range counts {
-				if count > 1 {
-					result[arg] = result[arg] + line + " "
-				}
 			}
 		}
 	}
-	for file, lines := range result {
-		fmt.Printf("%s\t%s\n", file, lines)
+
+	for line, filenames := range counts {
+		for fn, ct := range filenames {
+			if ct > 1 {
+				fmt.Println(line, "is duplicated in ", fn, ct, "times")
+			}
+		}
 	}
 }
 
-func countLines(f *os.File, counts map[string]int) {
+func countLines(f *os.File, filename string, counts map[string]map[string]int) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
-		counts[input.Text()]++
+		if counts[input.Text()] == nil {
+			counts[input.Text()] = make(map[string]int)
+		}
+		counts[input.Text()][filename]++
 	}
 }
