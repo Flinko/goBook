@@ -1,6 +1,9 @@
 package insertionSort
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestInsertionSort(t *testing.T) {
 	tests := []struct {
@@ -13,6 +16,8 @@ func TestInsertionSort(t *testing.T) {
 		{[]int{4, 3, 2, 10, 12, 1, 5, 6}},
 	}
 
+	fmt.Printf("Alina")
+
 	for _, test := range tests {
 		result := insertionSort(test.A)
 		for i := 1; i < len(result); i++ {
@@ -21,4 +26,5 @@ func TestInsertionSort(t *testing.T) {
 			}
 		}
 	}
+	fmt.Printf("end")
 }
